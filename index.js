@@ -49,7 +49,7 @@ console.log(use,current);
 let box=document.querySelector(".show_model");
 let overlap=document.querySelector("#overlap");
 let close=document.querySelector(".close");
-
+let load = document.querySelector(".spinner-border");
 
 // fetching API using Fetch method with passing lat and lon
 const getAirquality=async (lat,lon)=>{
@@ -61,7 +61,7 @@ const getAirquality=async (lat,lon)=>{
                     'X-RapidAPI-Host': 'air-quality.p.rapidapi.com'
                 }
             };
-            
+            load.classList.remove("noload");
             fetch(`https://air-quality.p.rapidapi.com/history/airquality?lon=${lon}&lat=${lat}`, options)
                 .then(response => response.json())
                 .then(information => {
@@ -76,10 +76,13 @@ const getAirquality=async (lat,lon)=>{
                     pm10.innerHTML=`${information.data[0].pm10}`;
                     pm25.innerHTML=`${information.data[0].pm25}`;
                     so2.innerHTML=`${information.data[0].so2}`
-                    
+                      load.classList.add("noload");
                     
                 })
-                .catch(err => console.log(err));
+                .catch(err =>{
+                    load.classList.add("noload");
+                   console.log(err);
+                });
    
 }
 
